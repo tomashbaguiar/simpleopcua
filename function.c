@@ -23,22 +23,44 @@ void
 changeName(char *name)
 {
     //  Retira espaços  //
-    char *aux = malloc(strlen(name) * sizeof(char));
+    char *aux = malloc(10 * sizeof(char));
+	clearName(aux);
     for(int i = 0; i < strlen(name); i++)
         // Verifica existência de espaços e os substitui    //
 		aux[i] = (name[i] == ' ') ? '.' : name[i];
     
-    free(name);
-    name = aux;
+  	strcpy(name, aux);
+  	free(aux);
     aux = NULL;
 }
 
+void
+reChangeName(char *name)
+{
+    //  Retira espaços  //
+    char *aux = malloc(10 * sizeof(char));
+	clearName(aux);
+    for(int i = 0; i < strlen(name); i++)
+        // Verifica existência de espaços e os substitui    //
+		aux[i] = (name[i] == '.') ? ' ' : name[i];
+    
+  	strcpy(name, aux);
+  	free(aux);
+    aux = NULL;
+}
+
+void
+clearName(char *name)
+{
+	for(int i = 0; i < 10; i++)
+		name[i] = 0;
+}
+
 void 
-addVariable(UA_Server *server, UA_Int32 myInteger, char *name, int qtdVar)
+addVariable(UA_Server *server, UA_Int32 myInteger, char *name, UA_Int32 qtdVar)
 {
     //  Define os atributos do nó   //
     UA_VariableAttributes attr = UA_VariableAttributes_default;                         // Atributos padrão.
-    //UA_Int32 myInteger = ;
     UA_Variant_setScalar(&attr.value, &myInteger, &UA_TYPES[UA_TYPES_INT32]);           // Atribui ao variante um escalar.
     attr.displayName = UA_LOCALIZEDTEXT("pt-BR", name);                                 // Identificador do nó.
     attr.description = UA_LOCALIZEDTEXT("pt-BR", name);                                 // Descrição do nó.
@@ -47,11 +69,15 @@ addVariable(UA_Server *server, UA_Int32 myInteger, char *name, int qtdVar)
 
     //  Define ondeo nó será adicionado e seu nome de descobrimento //
     changeName(name);                                                                   // Modifica a descrição.
-    UA_NodeId newNodeId = UA_NODEID_STRING((qtdVar + 1), name);
-    UA_QualifiedName browseName = UA_QUALIFIEDNAME((qtdVar + 1), name);
-    UA_NodeId parentNodeId = UA_NODEID_NUMERIC(qtdVar, UA_NS0ID_OBJECTSFOLDER);
-    UA_NodeId parentReferenceNodeId = UA_NODEID_NUMERIC(0, UA_NS0ID_ORGANIZES);
-    UA_NodeId variableType = UA_NODEID_NULL;                                            // Recebe o tipo padrão.
+printf("%s.\n", name);
+printf("int: %d, name: %s, qtdVar: %d.\n", (int) myInteger, name, (int) qtdVar);
+    UA_NodeId newNodeId = UA_NODEID_STRING((int) qtdVar, name);
+	reChangeName(name);
+printf("int: %d, name: %s, qtdVar: %d.\n", (int) myInteger, name, (int) qtdVar);
+    UA_QualifiedName browseName = UA_QUALIFIEDNAME((int) qtdVar, name);
+    UA_NodeId parentNodeId = UA_NODEID_NUMERIC((qtdVar - 1), UA_NS0ID_OBJECTSFOLDER);
+    UA_NodeId parentReferenceNodeId = UA_NODEID_NUMERIC((qtdVar - 1), UA_NS0ID_ORGANIZES);
+    UA_NodeId variableType = UA_NODEID_NUMERIC((qtdVar - 1), UA_NS0ID_BASEDATAVARIABLETYPE);       // Recebe o tipo padrão.
 
     //  Adiciona o nó   //
     UA_Server_addVariableNode(server, newNodeId, parentNodeId, parentReferenceNodeId,

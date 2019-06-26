@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <string.h>
 
 #include "function.h"
 #include "open62541.h"
@@ -27,22 +28,21 @@ main(int argc, char **argv)
 
     //  Adiciona nós de variáveis  //
     int qtdVar = 0;
+    char *name = malloc(10 * sizeof(char));
     for(int i = 1; i <= num_var; i++)
     {
-        char *name = malloc(10 * sizeof(char));
         sprintf(name, "proVar %d", i);
-        addVariable(server, (UA_Int32) i, name, (UA_Int32) qtdVar);                 // Adiciona nós.
-        qtdVar++;
-        free(name);
+        addVariable(server, (UA_Int32) i, name, (UA_Int32) ++qtdVar);               // Adiciona nós.
+        //free(name);
+		clearName(name);
     }
 
     //  Escreve nos nós //
     for(int i = 0; i <= num_var; i++)
     {
-        char *name = malloc(10 * sizeof(char));
         sprintf(name, "proVar %d", i);
         writeVariable(server, (UA_Int32)i, name, (UA_Int32)qtdVar);                 // Escreve nos nós.
-        free(name);
+		memset(name, 0, strlen(name) * sizeof(char));
     }
 
     //  Executa o loop do servidor  //

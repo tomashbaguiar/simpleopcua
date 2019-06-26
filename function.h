@@ -8,6 +8,8 @@
     //  Procedimentos auxiliares    //
     void signalHandler(int);                                                // Procedimento que recebe sinais de terminação.
     void changeName(char *);                                                // Procedimento que retira espaços de string.
+    void reChangeName(char *);                                                // Procedimento que retira espaços de string.
+	void clearName(char *);
 
     //  Procedimentos do servidor   //
     void addVariable(UA_Server *, UA_Int32, char *, UA_Int32);       		// Procedimento para adicionar variáveis ao servidor.
