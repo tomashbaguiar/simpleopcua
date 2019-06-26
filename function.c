@@ -58,9 +58,10 @@ addVariable(UA_Server *server, UA_Int32 myInteger, char *name, int qtdVar)
 }
 
 static void
-writeVariable(UA_Server *server, UA_Int32 myInteger, char *name, UA_Int32 qtdVar)
+writeVariable(UA_Server *server, UA_Int32 myInteger, char *name, UA_Int32 numVar)
 {
-    UA_NodeId myIntegerNodeId = UA_NODEID_STRING(qtdVar, name);
+    changeName(name);
+    UA_NodeId myIntegerNodeId = UA_NODEID_STRING(numVar, name);
 
     //  Escreve um inteiro diferente na variável    //
     UA_Int32 newInteger = myInteger + 1;
