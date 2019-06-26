@@ -1,13 +1,17 @@
 #include "function.h"
-#include "open62541.h"
-
-//  Variável globais   //
-UA_Boolean running = true;
+//#include "open62541.h"
 
 //  Procedimento para finalizar o servidor  //
 void 
-signalHandler(int sig)
+signalHandler(int signo)
 {
-    UA_LOG_INFO(UA_Log_Stdout, UA_LOGCATEGORY_SERVER, "received ctrl-c");               //Mostra no log que foi recebido comando de fechamento.
+    //  Verifica o tipo de sinal recebido   //
+    if(signo == SIGINT)
+        UA_LOG_INFO(UA_Log_Stdout, UA_LOGCATEGORY_SERVER, "received ctrl-c");           //Mostra no log que foi recebido comando de fechamento.
+    else if(signo == SIGTERM)
+        UA_LOG_INFO(UA_Log_Stdout, UA_LOGCATEGORY_SERVER, "received termination");      //Mostra no log que foi recebido comando de terminação.
+    else
+        return;                                                                         //Finaliza o procedimento sem fechamento.
+
     running = false;                                                                    //Coloca false na variável booleana de execução.
 }
