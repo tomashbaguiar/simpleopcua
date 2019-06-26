@@ -1,8 +1,7 @@
 #ifndef FUNCTION_H
     #define FUNCTION_H
   
-    #include <open62541/server.h>
-    #include <open62541/server_config_default.h>
+    #include "open62541.h"
 
     UA_Boolean running = true;                                              // Variável global de execução do servidor.
 

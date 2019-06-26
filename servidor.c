@@ -2,12 +2,8 @@
 #include <stdlib.h>
 #include <signal.h>
 
-//#include "function.h"
+#include "function.h"
 #include "open62541.h"
-
-UA_Boolean running = true;                                              // Variável global de execução do servidor.
-
-void signalHandler(int);                                                // Procedimento que recebe sinais de terminação.
 
 int
 main(int argc, char **argv)
@@ -19,7 +15,6 @@ main(int argc, char **argv)
     //  Cria o endpoint do servidor //
     UA_ServerConfig *config = UA_ServerConfig_new_default();                        // Cria o padrão de configuração do endpoint.
     UA_Server *server = UA_Server_new(config);                                      // Cria o endpoint.
-    //UA_ServerConfig_setDefault(UA_Server_getConfig(server));                        // Determina configurações padrões (porta 4840).
 
     //  Adiciona um nó de variável  //
     //  Define os atributos do nó   //
@@ -39,28 +34,13 @@ main(int argc, char **argv)
                                 browseName, variableType, attr, NULL, NULL);
 
     //  Executa o loop do servidor  //
-    //UA_StatusCode status = UA_Server_run(server, &running);
-    UA_Server_run(server, &running);
+    UA_StatusCode status = UA_Server_run(server, &running);
+    if(status != UA_STATUSCODE_GOOD)
+        UA_LOG_INFO(UA_Log_Stdout, UA_LOGCATEGORY_SERVER, "Impossible to run server.");//Mostra no log erro na execução.
+    //UA_Server_run(server, &running);
 
     //  Encerra o servidor  //
     UA_Server_delete(server);
 
     return EXIT_SUCCESS;
-}
-
-//  Procedimento para finalizar o servidor  //
-void 
-signalHandler(int signo)
-{
-    //  Verifica o tipo de sinal recebido   //
-    if(signo == SIGINT)
-        //UA_LOG_INFO(UA_Log_Stdout, UA_LOGCATEGORY_SERVER, "received ctrl-c");           //Mostra no log que foi recebido comando de fechamento.
-        fprintf(stderr, "Recebido ctrl-c\n");
-    else if(signo == SIGTERM)
-        //UA_LOG_INFO(UA_Log_Stdout, UA_LOGCATEGORY_SERVER, "received termination");      //Mostra no log que foi recebido comando de terminação.
-        fprintf(stderr, "Recebido SIGTERM\n");
-    else
-        return;                                                                         //Finaliza o procedimento sem fechamento.
-
-    running = false;                                                                    //Coloca false na variável booleana de execução.
 }

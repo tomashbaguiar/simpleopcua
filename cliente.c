@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <signal.h>
 #include "open62541.h"
+#include "function.h"
 
 //#include <open62541/client.h>
 //#include <open62541/client_config_default.h>
