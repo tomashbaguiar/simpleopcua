@@ -25,14 +25,15 @@ changeName(char *name)
     //  Retira espaços  //
     char *aux = malloc(strlen(name) * sizeof(char));
     for(int i = 0; i < strlen(name); i++)
-        (name[i] == ' ') ? aux[i] = '.' : aux[i] = name[i];                             // Verifica existência de espaços e os substitui.
+        // Verifica existência de espaços e os substitui    //
+		aux[i] = (name[i] == ' ') ? '.' : name[i];
     
     free(name);
     name = aux;
     aux = NULL;
 }
 
-static void 
+void 
 addVariable(UA_Server *server, UA_Int32 myInteger, char *name, int qtdVar)
 {
     //  Define os atributos do nó   //
@@ -57,7 +58,7 @@ addVariable(UA_Server *server, UA_Int32 myInteger, char *name, int qtdVar)
                               browseName, variableType, attr, NULL, NULL);
 }
 
-static void
+void
 writeVariable(UA_Server *server, UA_Int32 myInteger, char *name, UA_Int32 numVar)
 {
     changeName(name);
@@ -75,7 +76,7 @@ writeVariable(UA_Server *server, UA_Int32 myInteger, char *name, UA_Int32 numVar
     UA_WriteValue_init(&wv);
     wv.nodeId = myIntegerNodeId;
     wv.attributeId = UA_ATTRIBUTEID_VALUE;
-    ((qtd % 2) == 0) ? wv.value.status = UA_STATUSCODE_GOOD : wv.value.status = UA_STATUSCODE_BADNOTCONNECTED;
+    wv.value.status = ((numVar % 2) == 0) ? UA_STATUSCODE_GOOD : UA_STATUSCODE_BADNOTCONNECTED;
     wv.value.hasStatus = true;
     UA_Server_write(server, &wv);
 }

@@ -10,7 +10,7 @@
     void changeName(char *);                                                // Procedimento que retira espaços de string.
 
     //  Procedimentos do servidor   //
-    static void addVariable(UA_Server *, UA_Int32, char *, UA_Int32);       // Procedimento para adicionar variáveis ao servidor.
-    static void writeVariable(UA_Server *, UA_Int32, char *, UA_Int32);     // Procedimento que escreve em uma variável do servidor.
+    void addVariable(UA_Server *, UA_Int32, char *, UA_Int32);       		// Procedimento para adicionar variáveis ao servidor.
+    void writeVariable(UA_Server *, UA_Int32, char *, UA_Int32);     		// Procedimento que escreve em uma variável do servidor.
 
 #endif

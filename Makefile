@@ -12,10 +12,10 @@ open62541: open62541.h open62541.c
 function: function.h function.c
 	$(CC) $(FLAGS) -c function.c
 
-servidor: servidor.c function.o open62541.o
-	$(CC) $(FLAGS) servidor.c open62541.o function.o -o servidor
+servidor: servidor.c function open62541
+	$(CC) $(FLAGS) open62541.o function.o servidor.c -o servidor
 
-cliente: cliente.c function.o open62541.o
+cliente: cliente.c function open62541
 	$(CC) $(FLAGS) cliente.c open62541.o function.o -o cliente
 
 rmobj:
