@@ -2,7 +2,6 @@ PROGRAMS := servidor cliente
 SOURCES := open62541 function
 CC := gcc
 #FLAGS := -Wall -Werror -pedantic -Wextra -fno-stack-protector -std=c99 -DUA_ARCHITECTURE_POSIX
-#FLAGS := -Wall -pedantic -Wextra -fno-stack-protector -std=c99 -DUA_ARCHITECTURE_POSIX
 FLAGS := -fno-stack-protector -std=c99 -DUA_ARCHITECTURE_POSIX
 
 all: $(SOURCES) $(PROGRAMS) rmobj

@@ -21,7 +21,6 @@ main(int argc, char **argv)
     UA_VariableAttributes attr = UA_VariableAttributes_default;                     // Atributos padrão.
     attr.displayName = UA_LOCALIZEDTEXT("pt-BR", "resposta");                       // Identificador do nó.
     UA_Int32 myInteger = 42;
-    //int retval;
     UA_Variant_setScalar(&attr.value, &myInteger, &UA_TYPES[UA_TYPES_INT32]);       // Atribui ao variante um escalar.
     //  Define ondeo nó será adicionado e seu nome de descobrimento //
     UA_NodeId newNodeId = UA_NODEID_STRING(1, "response");
@@ -42,5 +41,5 @@ main(int argc, char **argv)
     //  Encerra o servidor  //
     UA_Server_delete(server);
 
-    return EXIT_SUCCESS;
+    return (status == UA_STATUSCODE_GOOD) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
