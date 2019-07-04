@@ -20,7 +20,7 @@ main(int argc, char **argv)
     //  Define os atributos do nó   //
     UA_VariableAttributes attr = UA_VariableAttributes_default;                     // Atributos padrão.
     attr.displayName = UA_LOCALIZEDTEXT("pt-BR", "resposta");                       // Identificador do nó.
-    UA_Int32 myInteger = 42;
+    UA_Int32 myInteger = 30;
     //int retval;
     UA_Variant_setScalar(&attr.value, &myInteger, &UA_TYPES[UA_TYPES_INT32]);       // Atribui ao variante um escalar.
     //  Define ondeo nó será adicionado e seu nome de descobrimento //
